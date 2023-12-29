@@ -1,4 +1,5 @@
 :root {
+  /* box-sizing: border-box; */
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 24px;
@@ -15,23 +16,13 @@
 }
 
 .container {
-  margin: 0;
-  padding-top: 10vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: 0.75s;
-}
-
-.logo.tauri:hover {
-  filter: drop-shadow(0 0 2em #24c8db);
+.container > * {
+  margin: 0 8px;
 }
 
 .row {
@@ -55,9 +46,10 @@ h1 {
 
 input,
 button {
+  margin: 4px;
   border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  padding: 0.6em 0.8em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
@@ -82,10 +74,6 @@ button:active {
 input,
 button {
   outline: none;
-}
-
-#greet-input {
-  margin-right: 5px;
 }
 
 @media (prefers-color-scheme: dark) {
