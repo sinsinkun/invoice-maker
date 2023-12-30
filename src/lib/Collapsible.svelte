@@ -24,6 +24,7 @@
     border-top: 1px solid white;
     border-bottom: 1px solid white;
     width: inherit;
+    padding-bottom: 8px;
     margin-bottom: 4px;
   }
   .control {

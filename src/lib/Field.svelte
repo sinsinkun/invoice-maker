@@ -6,6 +6,8 @@
   export let handler; // function
   export let error = false; // bool
   export let errorMessage = 'No error?'; // string
+  export let forceWrap = false; // bool
+  export let pattern = null; // regex string
 </script>
 
 <style>
@@ -13,6 +15,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
   }
   .error-msg {
     margin: 0 16px;
@@ -21,13 +24,14 @@
   }
 </style>
 
-<div class='field-container'>
+<div class='field-container' style={forceWrap && "flex-direction:column;align-items:start"}>
   <label for={name}>{label || name}</label>
   <input
     type={type}
     id={name}
     name={name}
     value={value}
+    pattern={pattern}
     on:change={handler}
     style={error ? "border:1px solid #f44" : ""}
   />

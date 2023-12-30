@@ -1,7 +1,12 @@
 <script>
   import { invoiceData } from './store';
 
-  // setInterval(() => console.log("data in preview", data), 2000);
+  let total = 0;
+  invoiceData.subscribe(({ items }) => {
+    items.forEach(item => {
+      total += item.price;
+    })
+  })
 </script>
 
 <style>
@@ -33,18 +38,18 @@
     margin-top: 5%;
     margin-bottom: 3%;
     margin-right: 5%;
-    font-size: 26pt;
+    font-size: 4vh;
     min-width: max-content;
   }
   .output h2 {
     min-width: max-content;
     margin-right: 2%;
-    font-size: 14pt;
+    font-size: 2.5vh;
   }
   .output p {
     margin: 0 2%;
     line-height: 12pt;
-    font-size: 10pt;
+    font-size: 1.4vh
   }
   .output .item-container {
     display: grid;
@@ -53,12 +58,12 @@
     text-align: right;
     padding-bottom: 10px;
     border-bottom: 1px solid black;
-    font-size: 10pt;
+    font-size: 1.4vh;
   }
   .item-container .heading {
     margin: 0;
     border-bottom: 2px solid black;
-    font-size: 11pt;
+    font-size: 1.6vh;
   }
   .item-container .first {
     text-align: left;
@@ -67,7 +72,10 @@
     display: grid;
     grid-template-columns: 3fr 1fr;
     margin: 2% 4%;
-    font-size: 11pt;
+    font-size: 1.6vh;
+  }
+  .alt {
+    background-color: #ddd;
   }
 </style>
 
@@ -77,7 +85,7 @@
     {#if $invoiceData.payTo}
       <div class="header-block">
         <h2>Pay To</h2>
-        <div style="margin:auto 0">
+        <div style="margin:auto 0;flex-grow:1">
           <p>{$invoiceData.payTo}</p>
           <p>{$invoiceData.payToCompany}</p>
           <p>{$invoiceData.payToAddress}</p>
@@ -87,7 +95,7 @@
     {#if $invoiceData.billTo}
       <div class="header-block">
         <h2>Bill To</h2>
-        <div style="margin:auto 0">
+        <div style="margin:auto 0;flex-grow:1">
           <p>{$invoiceData.billTo}</p>
           <p>{$invoiceData.billToPhone}</p>
           <p>{$invoiceData.billToAddress}</p>
@@ -98,17 +106,19 @@
       <!-- headers -->
       <span class="heading first">Item</span>
       <span class="heading">Rate</span>
-      <span class="heading">Amount</span>
+      <span class="heading">Quantity</span>
       <span class="heading">Price</span>
       <!-- items -->
-      <span class="first">item</span>
-      <span>$10/hr</span>
-      <span>100</span>
-      <span>$1000</span>
+      {#each $invoiceData.items as item, i}
+        <span class={i%2 ? "first alt" : "first"}>{item.description || "(no description)"}</span>
+        <span class={i%2 ? "alt" : ""}>{item.rate ? `$ ${item.rate}` : ''}</span>
+        <span class={i%2 ? "alt" : ""}>{item.qty || ''}</span>
+        <span class={i%2 ? "alt" : ""}>{item.price ? `$ ${item.price}` : '$0'}</span>
+      {/each}
     </div>
     <div class="item-container-footer">
       <span>Total</span>
-      <span style="text-align:right">$1000.00</span>
+      <span style="text-align:right">$ {total}</span>
     </div>
   </div>
 </div>
