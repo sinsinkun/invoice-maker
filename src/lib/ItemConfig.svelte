@@ -12,9 +12,7 @@
     price: 0,
   }
 
-  console.log("itemIndex is", itemIndex);
-
-  $: invoiceData.subscribe(({ items }) => {
+  invoiceData.subscribe(({ items }) => {
     // non-existent item
     if (!items[itemIndex]) {
       console.log("ERR: item not found in data", itemIndex, items);
@@ -31,11 +29,6 @@
 
   function updateFieldData(e) {
     const { name, value } = e.target;
-
-    // regex check
-    if (name === "rate") {
-
-    }
 
     // update store data
     invoiceData.update((data) => {
@@ -90,12 +83,16 @@
   <div>
     <Field name="description" label="Item Description" value={fieldData.description} handler={updateFieldData} />
   </div>
-  <div>
-    <Field name="rate" label="Charge Rate" value={fieldData.rate} handler={updateFieldData} />
-  </div>
-  <div>
-    <Field name="qty" type="number" label="Quantity/Amount" value={fieldData.qty || ''} handler={updateFieldData} />
-  </div>
+  {#if $invoiceData.showRate}
+    <div>
+      <Field name="rate" label="Charge Rate" value={fieldData.rate} handler={updateFieldData} />
+    </div>
+  {/if}
+  {#if $invoiceData.showQty}
+    <div>
+      <Field name="qty" type="number" label="Quantity/Amount" value={fieldData.qty || ''} handler={updateFieldData} />
+    </div>
+  {/if}
   <div>
     <Field name="price" type="number" label="Sum Price" value={fieldData.price || ''} handler={updateFieldData} />
   </div>

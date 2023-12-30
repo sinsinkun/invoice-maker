@@ -8,6 +8,13 @@
   export let errorMessage = 'No error?'; // string
   export let forceWrap = false; // bool
   export let pattern = null; // regex string
+
+  function customFieldStyle() {
+    let style = "";
+    if (forceWrap) style += "flex-direction:column;align-items:start;";
+    return style;
+  }
+
 </script>
 
 <style>
@@ -24,8 +31,8 @@
   }
 </style>
 
-<div class='field-container' style={forceWrap && "flex-direction:column;align-items:start"}>
-  <label for={name}>{label || name}</label>
+<div class='field-container' style={customFieldStyle()}>
+  <label for={name} style='margin-right:4px'>{label || name}</label>
   <input
     type={type}
     id={name}
@@ -34,6 +41,7 @@
     pattern={pattern}
     on:change={handler}
     style={error ? "border:1px solid #f44" : ""}
+    checked={(type === "checkbox" || type === "radio") ? value : null}
   />
 </div>
 {#if error}

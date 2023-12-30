@@ -105,8 +105,12 @@
     <div class="item-container">
       <!-- headers -->
       <span class="heading first">Item</span>
-      <span class="heading">Rate</span>
-      <span class="heading">Quantity</span>
+      <span class="heading">
+        {#if $invoiceData.showRate}Rate{/if}
+      </span>
+      <span class="heading">
+        {#if $invoiceData.showQty}Quantity{/if}
+      </span>
       <span class="heading">Price</span>
       <!-- items -->
       {#each $invoiceData.items as item, i}

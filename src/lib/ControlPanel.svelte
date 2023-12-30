@@ -1,8 +1,9 @@
 <script>
+  import html2canvas from 'html2canvas';
   import { invoiceData } from './store';
   import Collapsible from './Collapsible.svelte';
   import Field from './Field.svelte';
-    import ItemConfig from './ItemConfig.svelte';
+  import ItemConfig from './ItemConfig.svelte';
 
   let data = {};
   
@@ -20,11 +21,41 @@
     }
   }
 
+  function changeMetaDataRadio(e) {
+    const { name, checked, value } = e.target;
+    console.log("??", name, value, checked);
+    if (name in data) {
+      data[name] = checked;
+      invoiceData.update(oldData => {
+        oldData[name] = checked;
+        return oldData;
+      })
+    }
+  }
+
   function addItem() {
     invoiceData.update((data) => {
       data.items.push({ description: 'new item', price: 0 });
       return data;
     })
+  }
+
+  function print() {
+    let date = new Date().toLocaleString('en-US', { 
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+    })
+    console.log("time", date);
+    // @ts-ignore
+    html2canvas(document.querySelector(".output")).then(canvas => {
+      const img = canvas.toDataURL("image/png");
+      const a = document.createElement('a');
+      a.href = img;
+      a.download = 'Invoice-' + date;
+      a.click();
+      a.remove();
+    });
   }
 
 </script>
@@ -44,6 +75,13 @@
     padding-top: 16px;
     border-top: 1px solid white;
   }
+  .check-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .check-container > * {
+    margin-right: auto;
+  }
 </style>
 
 <div class="root">
@@ -56,6 +94,14 @@
     <Field name='billTo' label='Bill to' value={data.billTo} handler={changeMetaData} />
     <Field type='tel' name='billToPhone' label='Bill to phone #' value={data.billToPhone} handler={changeMetaData} />
     <Field name='billToAddress' label='Bill to address' value={data.billToAddress} handler={changeMetaData} />
+    <div class='check-container'>
+      <div>
+        <Field type='checkbox' name='showRate' label="Include Rate" value={data.showRate} handler={changeMetaDataRadio} />
+      </div>
+      <div>
+        <Field type='checkbox' name='showQty' label="Include Quantity" value={data.showQty} handler={changeMetaDataRadio} />
+      </div>
+    </div>
   </Collapsible>
   <Collapsible title='Items'>
     {#each $invoiceData.items as item, i}
@@ -66,7 +112,7 @@
     {/if}
   </Collapsible>
   <div class="btn-container">
-    <button on:click={() => console.log("todo")}>Save Draft</button>
-    <button on:click={() => console.log("todo", $invoiceData)}>Print Invoice</button>
+    <!-- <button on:click={() => console.log("todo")}>Save Draft</button> -->
+    <button on:click={print}>Print Invoice</button>
   </div>
 </div>
