@@ -4,6 +4,7 @@
   import Collapsible from './Collapsible.svelte';
   import Field from './Field.svelte';
   import ItemConfig from './ItemConfig.svelte';
+  import { autoPDF } from './createPDF';
 
   let data = {};
   
@@ -46,7 +47,6 @@
       month: 'numeric',
       day: 'numeric',
     })
-    console.log("time", date);
     // @ts-ignore
     html2canvas(document.querySelector(".output")).then(canvas => {
       const img = canvas.toDataURL("image/png");
@@ -56,6 +56,10 @@
       a.click();
       a.remove();
     });
+  }
+
+  function printPDF() {
+    autoPDF("output");
   }
 
 </script>
@@ -113,6 +117,7 @@
   </Collapsible>
   <div class="btn-container">
     <!-- <button on:click={() => console.log("todo")}>Save Draft</button> -->
-    <button on:click={print}>Print Invoice</button>
+    <button on:click={print}>Save Invoice as image</button>
+    <button on:click={printPDF}>Save Invoice as PDF</button>
   </div>
 </div>

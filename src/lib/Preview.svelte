@@ -80,7 +80,7 @@
 </style>
 
 <div class="root">
-  <div class="output">
+  <div class="output" id="output">
     <h1>{$invoiceData.title}</h1>
     {#if $invoiceData.payTo}
       <div class="header-block">
@@ -104,14 +104,14 @@
     {/if}
     <div class="item-container">
       <!-- headers -->
-      <span class="heading first">Item</span>
-      <span class="heading">
+      <span class="heading first 14-pt">Item</span>
+      <span class="heading 14-pt">
         {#if $invoiceData.showRate}Rate{/if}
       </span>
-      <span class="heading">
+      <span class="heading 14-pt">
         {#if $invoiceData.showQty}Quantity{/if}
       </span>
-      <span class="heading">Price</span>
+      <span class="heading 14-pt">Price</span>
       <!-- items -->
       {#each $invoiceData.items as item, i}
         <span class={i%2 ? "first alt" : "first"}>{item.description || "(no description)"}</span>
@@ -121,8 +121,8 @@
       {/each}
     </div>
     <div class="item-container-footer">
-      <span>Total</span>
-      <span style="text-align:right">$ {total}</span>
+      <span class="footer 14-pt">Total</span>
+      <span class="14-pt" style="text-align:right">$ {total}</span>
     </div>
   </div>
 </div>
