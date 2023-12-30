@@ -6,13 +6,13 @@ export const invoiceData = writable({
   billTo: "John Doe",
   billToPhone: "",
   billToAddress: "",
-  payTo: "Lingling Jing",
+  payTo: "Bob Smith",
   payToCompany: "",
   payToAddress: "",
-  footer: "Footer text",
+  footer: "Footer text", // TODO
   showRate: true,
   showQty: true,
   items: [
     { description: "new item", price:0 },
-  ],
+  ], // 20 items max, next page TODO
 });

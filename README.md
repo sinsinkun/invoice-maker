@@ -1,8 +1,14 @@
-# Svelte + Vite
+# Invoice Maker
 
-This template should help get you started developing with Tauri and Svelte in Vite.
+Small Tauri app that reduces an invoice to a couple of simple fields
 
-## Recommended IDE Setup
+Uses the html2canvas library to convert HTML elements into an image
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer).
+Exports as a PNG
 
+Future features:
+
+- saving and loading drafts via local json files
+- next page support for adding more than 20 items
+- footer support
+- other invoice designs
