@@ -162,5 +162,10 @@ export function autoPDF(rootElemId, options) {
   })
 
   console.log("Successfully generated pdf");
-  doc.save('test-pdf.pdf');
+  const date = new Date().toLocaleString('en-US', { 
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+  })
+  doc.save("Invoice-" + date + ".pdf");
 }

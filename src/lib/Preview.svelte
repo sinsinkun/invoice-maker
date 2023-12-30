@@ -3,6 +3,7 @@
 
   let total = 0;
   invoiceData.subscribe(({ items }) => {
+    total = 0;
     items.forEach(item => {
       total += item.price;
     })
