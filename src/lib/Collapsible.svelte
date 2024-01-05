@@ -1,11 +1,18 @@
 <script>
+  import { appWindow } from "@tauri-apps/api/window";
   import { afterUpdate } from "svelte";
   import IconButton from "./IconButton.svelte";
 
   export let title = '';
   let collapsibleDiv, divh=0;
 
-  // explicitly add height to collapsible component after update
+  appWindow.onResized(() => {
+    if (collapsibleDiv && !collapsed) {
+      divh = collapsibleDiv.scrollHeight;
+    }
+  })
+
+  // explicitly add height to collapsible component after resize
   afterUpdate(() => {
     if (collapsibleDiv && !collapsed) {
       divh = collapsibleDiv.scrollHeight;

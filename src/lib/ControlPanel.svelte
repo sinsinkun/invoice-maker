@@ -1,5 +1,4 @@
 <script>
-  import html2canvas from 'html2canvas';
   import { invoiceData } from './store';
   import Collapsible from './Collapsible.svelte';
   import Field from './Field.svelte';
@@ -41,23 +40,6 @@
     })
   }
 
-  function print() {
-    let date = new Date().toLocaleString('en-US', { 
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
-    })
-    // @ts-ignore
-    html2canvas(document.querySelector(".output")).then(canvas => {
-      const img = canvas.toDataURL("image/png");
-      const a = document.createElement('a');
-      a.href = img;
-      a.download = 'Invoice-' + date;
-      a.click();
-      a.remove();
-    });
-  }
-
   function printPDF() {
     autoPDF("output");
   }
@@ -73,6 +55,16 @@
     min-width: 400px;
     text-align: left;
     overflow: auto;
+  }
+  .header-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    @media (max-width:1120px) {
+      grid-template-columns: 1fr;
+    }
+  }
+  .header-grid > div {
+    padding-right: 12px;
   }
   .btn-container {
     margin-top: 4px;
@@ -92,12 +84,27 @@
   <h3>Control Panel</h3>
   <Collapsible title='Headers'>
     <Field name='title' label='Title' value={data.title} handler={changeMetaData} />
-    <Field name='payTo' label='Pay to' value={data.payTo} handler={changeMetaData} />
-    <Field name='payToCompany' label='Pay to company' value={data.payToCompany} handler={changeMetaData} />
-    <Field name='payToAddress' label='Pay to address' value={data.payToAddress} handler={changeMetaData} />
-    <Field name='billTo' label='Bill to' value={data.billTo} handler={changeMetaData} />
-    <Field type='tel' name='billToPhone' label='Bill to phone #' value={data.billToPhone} handler={changeMetaData} />
-    <Field name='billToAddress' label='Bill to address' value={data.billToAddress} handler={changeMetaData} />
+    <Field name='invoiceNum' label='Invoice #' value={data.invoiceNum} handler={changeMetaData} />
+    <Field name='invoiceDate' label='Date' value={data.invoiceDate} handler={changeMetaData} />
+    <div class='header-grid'>
+      <div>
+        <h3>Pay To</h3>
+        <Field name='payTo' label='name' value={data.payTo} handler={changeMetaData} />
+        <Field name='payToHST' label='HST #' value={data.payToHST} handler={changeMetaData} />
+        <Field name='payToAddress' label='Address' value={data.payToAddress} handler={changeMetaData} />
+        <Field name='payToPhone' label='Phone #' value={data.payToPhone} handler={changeMetaData} />
+        <Field name='payToEmail' label='Email address' value={data.payToEmail} handler={changeMetaData} />
+      </div>
+      <div>
+        <h3>Bill To</h3>
+        <Field name='billTo' label='name' value={data.billTo} handler={changeMetaData} />
+        <Field name='billToHST' label='HST #' value={data.billToHST} handler={changeMetaData} />
+        <Field name='billToAddress' label='Address' value={data.billToAddress} handler={changeMetaData} />
+        <Field name='billToPhone' label='Phone #' value={data.billToPhone} handler={changeMetaData} />
+        <Field name='nillToEmail' label='Email address' value={data.billToEmail} handler={changeMetaData} />
+      </div>
+    </div>
+    <br />
     <div class='check-container'>
       <div>
         <Field type='checkbox' name='showRate' label="Include Rate" value={data.showRate} handler={changeMetaDataRadio} />
@@ -117,7 +124,6 @@
   </Collapsible>
   <div class="btn-container">
     <!-- <button on:click={() => console.log("todo")}>Save Draft</button> -->
-    <button on:click={print}>Save Invoice as image</button>
     <button on:click={printPDF}>Save Invoice as PDF</button>
   </div>
 </div>

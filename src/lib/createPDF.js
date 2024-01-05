@@ -123,7 +123,7 @@ export function autoPDF(rootElemId, options) {
     }
     // draw line above footer
     if (el.classList.contains("footer")) {
-      geometryCollection.push({ type: "line", x1: 8, x2: 202, y1: pos.y - 15, y2: pos.y - 15, width: 0.4 });
+      geometryCollection.push({ type: "line", x1: 8, x2: 202, y1: pos.y - 10, y2: pos.y - 10, width: 0.4 });
     }
     // draw box for alternating items
     if (el.classList.contains("first") && el.classList.contains("alt")) {

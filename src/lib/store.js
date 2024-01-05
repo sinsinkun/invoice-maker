@@ -2,12 +2,18 @@ import { writable } from 'svelte/store';
 
 export const invoiceData = writable({
   version: 1,
-  title: "Invoice", 
+  title: "Invoice",
+  invoiceNum: "INV2024001",
+  invoiceDate: (new Date()).toLocaleDateString(),
   billTo: "John Doe",
+  billToHST: "",
+  billToEmail: "",
   billToPhone: "",
   billToAddress: "",
   payTo: "Bob Smith",
-  payToCompany: "",
+  payToHST: "",
+  payToEmail: "",
+  payToPhone: "",
   payToAddress: "",
   footer: "Footer text", // TODO
   showRate: true,
