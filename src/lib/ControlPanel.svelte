@@ -1,4 +1,6 @@
 <script>
+  // @ts-ignore
+  import html2canvas from 'html2canvas';
   import { invoiceData } from './store';
   import Collapsible from './Collapsible.svelte';
   import Field from './Field.svelte';
@@ -38,6 +40,23 @@
       data.items.push({ description: 'new item', price: 0 });
       return data;
     })
+  }
+
+  function printAsImage() {
+    let date = new Date().toLocaleString('en-US', { 
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+    })
+    // @ts-ignore
+    html2canvas(document.querySelector(".output")).then(canvas => {
+      const img = canvas.toDataURL("image/png");
+      const a = document.createElement('a');
+      a.href = img;
+      a.download = 'Invoice-' + date;
+      a.click();
+      a.remove();
+    });
   }
 
   function printPDF() {
@@ -101,7 +120,7 @@
         <Field name='billToHST' label='HST #' value={data.billToHST} handler={changeMetaData} />
         <Field name='billToAddress' label='Address' value={data.billToAddress} handler={changeMetaData} />
         <Field name='billToPhone' label='Phone #' value={data.billToPhone} handler={changeMetaData} />
-        <Field name='nillToEmail' label='Email address' value={data.billToEmail} handler={changeMetaData} />
+        <Field name='billToEmail' label='Email address' value={data.billToEmail} handler={changeMetaData} />
       </div>
     </div>
     <br />
@@ -124,6 +143,7 @@
   </Collapsible>
   <div class="btn-container">
     <!-- <button on:click={() => console.log("todo")}>Save Draft</button> -->
+    <button on:click={printAsImage}>Save Invoice as image</button>
     <button on:click={printPDF}>Save Invoice as PDF</button>
   </div>
 </div>

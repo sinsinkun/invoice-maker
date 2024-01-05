@@ -71,6 +71,7 @@
   .output h2 {
     min-width: max-content;
     margin-right: 2%;
+    margin-top: 1vh;
     font-size: 2.5vh;
   }
   .output p {
